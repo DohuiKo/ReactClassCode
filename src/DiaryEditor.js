@@ -1,47 +1,52 @@
 import { useState } from "react";
 
 const DiaryEditor = () => {
-
   const [state, setState] = useState({
     author: "",
     content: "",
-    emotion: 1,
+    emotion: 1
   });
 
   const handleChangeState = (e) => {
-    console.log(e.target.name);
-    console.log(e.target.value);
-
     setState({
       ...state,
-      [e.target.name]: e.target.value,
+      [e.target.name]: e.target.value
     });
   };
 
   const handleSubmit = () => {
     console.log(state);
-    alert('저장 성공');
-  }
+    alert("저장 성공!");
+  };
 
   return (
     <div className="DiaryEditor">
       <h2>오늘의 일기</h2>
       <div>
         <input
-          name="author"
           value={state.author}
           onChange={handleChangeState}
+          name="author"
+          placeholder="작성자"
+          type="text"
         />
       </div>
       <div>
         <textarea
-          name="content"
           value={state.content}
           onChange={handleChangeState}
+          name="content"
+          placeholder="일기"
+          type="text"
         />
       </div>
       <div>
-        <select name='emotion' value={state.emotion} onChange={handleChangeState}>
+        <span>오늘의 감정점수 : </span>
+        <select
+          name="emotion"
+          value={state.emotion}
+          onChange={handleChangeState}
+        >
           <option value={1}>1</option>
           <option value={2}>2</option>
           <option value={3}>3</option>
@@ -55,5 +60,4 @@ const DiaryEditor = () => {
     </div>
   );
 };
-
 export default DiaryEditor;
