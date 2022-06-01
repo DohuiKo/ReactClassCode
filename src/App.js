@@ -1,8 +1,9 @@
+import React, { useRef, useState } from "react";
 import DiaryEditor from "./DiaryEditor";
 import DiaryList from './DiaryList';
 import './App.css';
 
-const dummyList = [
+/*const dummyList = [
   {
     id:1,
     author:"고도희",
@@ -31,13 +32,30 @@ const dummyList = [
     emotion:1,
     created_date: new Date().getTime() // 생성자에 아무것도 넣지 않고..
   },
-]
+] */
 
 const App = () => {
+  const [data, setData] = useState([]);
+
+  const dataId = useRef(0)
+
+  const onCreate = (author, content,  emotion)=> {
+    const created_date = new Date().getTime();
+    const newItem = {
+      author,
+      content,
+      emotion,
+      created_date,
+      id: dataId.current,
+    }
+    dataId.current += 1;
+    setData([newItem, ...data]);
+  };
+
   return (
     <div className="App">
-      <DiaryEditor />
-      <DiaryList diaryList = {dummyList}/>
+      <DiaryEditor onCreate = {onCreate} />
+      <DiaryList diaryList = {data}/>
     </div>
   );
 };
