@@ -1,7 +1,6 @@
-import React, { useRef, useState } from "react";
+import { useRef, useState } from "react";
 
-const DiaryEditor = ({onCreate}) => {
-
+const DiaryEditor = ({ onCreate }) => {
   const authorInput = useRef();
   const contentInput = useRef();
 
@@ -19,26 +18,23 @@ const DiaryEditor = ({onCreate}) => {
   };
 
   const handleSubmit = () => {
-    if(state.author.length <1){
-      //focus
+    if (state.author.length < 1) {
       authorInput.current.focus();
       return;
     }
 
-    if(state.content.length <5){
+    if (state.content.length < 5) {
       contentInput.current.focus();
       return;
     }
 
     onCreate(state.author, state.content, state.emotion);
-    console.log(state);
-    alert('저장 성공');
-    // 저장 성공하면 초기화
-    setState({ // 왜 초기화? 저장 성공하면 다이어리 에디터 컴포넌트를 기본값으로 초기화한다.
+    alert("저장 성공");
+    setState({
       author: "",
       content: "",
-      emotion: 1,
-    })
+      emotion: 1
+    });
   };
 
   return (
@@ -56,6 +52,7 @@ const DiaryEditor = ({onCreate}) => {
       </div>
       <div>
         <textarea
+          ref={contentInput}
           value={state.content}
           onChange={handleChangeState}
           name="content"

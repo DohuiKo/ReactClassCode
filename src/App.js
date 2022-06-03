@@ -1,68 +1,45 @@
-import React, { useRef, useState } from "react";
+import { useRef, useState } from "react";
+import "./App.css";
 import DiaryEditor from "./DiaryEditor";
-import DiaryList from './DiaryList';
-import './App.css';
-
-/*const dummyList = [
-  {
-    id:1,
-    author:"고도희",
-    content:"하이 1",
-    emotion:1,
-    created_date: new Date().getTime() // 생성자에 아무것도 넣지 않고..
-  },
-  {
-    id:2,
-    author:"아무개",
-    content:"하이 1",
-    emotion:1,
-    created_date: new Date().getTime() // 생성자에 아무것도 넣지 않고..
-  },
-  {
-    id:3,
-    author:"아무러니",
-    content:"하이 1",
-    emotion:1,
-    created_date: new Date().getTime() // 생성자에 아무것도 넣지 않고..
-  },
-  {
-    id:4,
-    author:"호호",
-    content:"하이 1",
-    emotion:1,
-    created_date: new Date().getTime() // 생성자에 아무것도 넣지 않고..
-  },
-] */
+import DiaryList from "./DiaryList";
+import Lifecycle from './Lifecycle';
 
 const App = () => {
   const [data, setData] = useState([]);
 
-  const dataId = useRef(0)
+  const dataId = useRef(0);
 
-  const onCreate = (author, content,  emotion)=> {
+  const onCreate = (author, content, emotion) => {
     const created_date = new Date().getTime();
     const newItem = {
       author,
       content,
       emotion,
       created_date,
-      id: dataId.current,
-    }
+      id: dataId.current
+    };
     dataId.current += 1;
     setData([newItem, ...data]);
   };
 
-  const onDelete = (targetId) => {
-    console.log(`${targetId}가 삭제되었습니다.`);
+  const onRemove = (targetId) => {
     const newDiaryList = data.filter((it) => it.id !== targetId);
-    console.log(newDiaryList);
     setData(newDiaryList);
+  };
+
+  const onEdit = (targetId, newContent) => {
+    setData(
+      data.map((it) =>
+        it.id === targetId ? { ...it, content: newContent } : it
+      )
+    );
   };
 
   return (
     <div className="App">
-      <DiaryEditor onCreate = {onCreate} />
-      <DiaryList onDelete={onDelete} diaryList = {data}/>
+      <Lifecycle />
+      <DiaryEditor onCreate={onCreate} />
+      <DiaryList onEdit={onEdit} onRemove={onRemove} diaryList={data} />
     </div>
   );
 };
